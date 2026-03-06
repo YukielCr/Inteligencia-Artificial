@@ -1,36 +1,49 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Ocultamos los errores de HTML/PHP normales para no romper el formato de respuesta
+error_reporting(0);
+// Le decimos al navegador que le vamos a contestar estrictamente con datos JSON
+header('Content-Type: application/json; charset=utf-8');
 
-// 1. Conexión a tu base de datos
+// Incluimos tu conexión
 require "../connection/conexion.php";
 
-if (isset($_GET['nombre']) && !empty($_GET['nombre'])) {
+// Aquí prepararemos nuestra respuesta
+$respuesta = array(); 
+
+if (isset($_GET['nombre']) && !empty(trim($_GET['nombre']))) {
     $nombre_buscado = trim($_GET['nombre']);
     
-    // 2. Buscamos si la enfermedad realmente existe
-    $sql = "SELECT nombre FROM registro_enfermedades WHERE nombre = ?";
+    // Buscamos la enfermedad
+    $sql = "SELECT * FROM registro_enfermedades WHERE nombre = ?";
     
     if ($stmt = mysqli_prepare($conexion, $sql)) {
         mysqli_stmt_bind_param($stmt, "s", $nombre_buscado);
         mysqli_stmt_execute($stmt);
-        mysqli_stmt_store_result($stmt);
+        $resultado = mysqli_stmt_get_result($stmt);
         
-        // 3. ¿Encontró algo?
-        if (mysqli_stmt_num_rows($stmt) > 0) {
-            // SÍ EXISTE: Lo regresamos a tu diseño original pasándole el nombre para que se autollene
-            header("Location: addEnfermedad.php?consulta=" . urlencode($nombre_buscado));
+        // Si la base de datos nos devuelve la fila...
+        if ($fila = mysqli_fetch_assoc($resultado)) {
+            // ¡Éxito! Empaquetamos los datos
+            $respuesta['error'] = false;
+            $respuesta['id'] = $fila['id'];
+            $respuesta['nombre'] = $fila['nombre'];
+            $respuesta['descripcion'] = $fila['descripcion'];
+            $respuesta['ruta_imagen'] = $fila['ruta_imagen'];
         } else {
-            // NO EXISTE: Mostramos alerta y lo regresamos a tu diseño original
-            echo "<script>
-                    alert('No se encontró ninguna enfermedad registrada con el nombre \"$nombre_buscado\".');
-                    window.location.href = 'addEnfermedad.php';
-                  </script>";
+            // Si no existe, preparamos el error
+            $respuesta['error'] = true;
+            $respuesta['mensaje'] = "No se encontró ninguna enfermedad llamada '$nombre_buscado'.";
         }
         mysqli_stmt_close($stmt);
+    } else {
+        $respuesta['error'] = true;
+        $respuesta['mensaje'] = "Error conectando con la base de datos.";
     }
 } else {
-    // Si entran directo al archivo, los regresa
-    header("Location: addEnfermedad.php");
+    $respuesta['error'] = true;
+    $respuesta['mensaje'] = "El campo de nombre está vacío.";
 }
+
+// Transformamos nuestro arreglo de PHP al formato JSON que JavaScript (AJAX) entiende
+echo json_encode($respuesta);
 ?>

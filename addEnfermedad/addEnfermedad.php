@@ -52,7 +52,7 @@
                     <button type="submit">ALTAS</button>
                     <button type="button" onclick="ejecutarBaja()">BAJAS</button>
                     <button type="button" onclick="ejecutarConsulta()">CONSULTAR</button>
-                    <a href="consultas_Grupal.php">CONSULTAS</a>
+                    <a href="consultas_Grupal.php">CONSULTAS MULTIPLES</a>
                     <button type="button" onclick="ejecutarModificacion()">MODIFICACIONES</button>
                     <button type="button" onclick="window.location.href='../interfasExpretoInicio.html'">REGRESAR</button>
                 </div>
@@ -131,15 +131,42 @@
 </script>
 
 <script>
-    // Ejecutar la CONSULTA
-    function ejecutarConsulta() {
+    // Ejecutar la CONSULTA sin recargar la página
+    async function ejecutarConsulta() {
         let nombreEnfermedad = document.querySelector('input[name="nombre"]').value;
         
         if (nombreEnfermedad.trim() === "") {
             alert("Por favor, escribe el nombre de la enfermedad que deseas buscar.");
-        } else {
-            // Mandamos el nombre directamente por la URL a tu archivo backend
-            window.location.href = 'consultas_Individual.php?nombre=' + encodeURIComponent(nombreEnfermedad);
+            return; // Detenemos la función aquí
+        }
+
+        try {
+            // AQUÍ ES LA CLAVE: Llamamos a tu archivo consultas_Individual.php
+            let respuesta = await fetch('consultas_Individual.php?nombre=' + encodeURIComponent(nombreEnfermedad));
+            let datos = await respuesta.json();
+
+            if (datos.error) {
+                // Mostramos el mensaje de error que armamos en PHP
+                alert(datos.mensaje);
+                document.querySelector('textarea[name="descripcion"]').value = "";
+                document.getElementById('vista-previa').style.display = 'none';
+            } else {
+                // Llenamos la descripción
+                document.querySelector('textarea[name="descripcion"]').value = datos.descripcion;
+
+                // Mostramos la imagen
+                const imagenPreview = document.getElementById('vista-previa');
+                if (datos.ruta_imagen && datos.ruta_imagen.trim() !== "") {
+                    let rutaLimpia = datos.ruta_imagen.replace("../../images/", "../images/");
+                    imagenPreview.src = rutaLimpia;
+                    imagenPreview.style.display = 'block';
+                } else {
+                    imagenPreview.style.display = 'none';
+                }
+            }
+        } catch (error) {
+            console.error("Error Fetch:", error);
+            alert("Error de conexión. Revisa la consola.");
         }
     }
 </script>
