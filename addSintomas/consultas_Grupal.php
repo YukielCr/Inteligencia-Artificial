@@ -9,21 +9,24 @@
     <link rel="icon" type="image/svg+xml" href="../img/iconnnn.jpg" />
 </head>
 
+
+
 <style>
     body {
         /* 1. Color de respaldo + imagen + posición + repetición + fijación */
-        background: #333333 url("../img/Enfer.jpg") center center no-repeat fixed;
+        background: #333333 url("../img/sinto.jpg") center center no-repeat fixed;
         
         /* 2. Para que la imagen cubra toda la pantalla sin deformarse */
         background-size: cover;
     }
 </style>
 
+
 <body class="bg-light">
 
     <?php
     require "../connection/conexion.php";
-    require "crud/registrar.php";
+    require "crud/re.php";
     require "crud/editar.php";
     require "crud/eliminar.php";
     ?>
@@ -46,7 +49,7 @@
                     <button type="button" class="btn btn-success fw-bold px-4" data-bs-toggle="modal" data-bs-target="#staticBackdropInsertar">
                         + Registrar Nueva
                     </button>
-                    <a href="addEnfermedad.php" class="btn btn-outline-secondary fw-bold px-4">Regresar al Panel</a>
+                    <a href="addSintomas.php" class="btn btn-outline-secondary fw-bold px-4">Regresar al Panel</a>
                 </div>
 
                 <div class="table-responsive">
@@ -64,7 +67,7 @@
                         <tbody>
 
                             <?php
-                            $sql = $conexion->query("SELECT * FROM registro_enfermedades");
+                            $sql = $conexion->query("SELECT * FROM registro_Sintomas");
                             while ($datos = $sql->fetch_object()) { 
                                 // Ajustamos la ruta de la imagen
                                 $ruta_imagen = $datos->ruta_imagen;

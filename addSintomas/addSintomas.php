@@ -5,10 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Datos de la Enfermedad</title>
     <link rel="icon" type="image/svg+xml" href="../img/iconnnn.jpg" />
-    <link rel="stylesheet" href="../css/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
+<style>
+    body {
+        /* 1. Color de respaldo + imagen + posición + repetición + fijación */
+        background: #333333 url("../img/sinto.jpg") center center no-repeat fixed;
+        
+        /* 2. Para que la imagen cubra toda la pantalla sin deformarse */
+        background-size: cover;
+    }
+</style>
+
 <body class="bg-light">
+    <br><br>
+    <h1 class="text-center mb-4 fw-bold text-light ">.</h1>
     
     <div class="container py-5">
         
