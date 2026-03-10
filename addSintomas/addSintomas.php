@@ -19,7 +19,7 @@
 </style>
 
 <body class="bg-light">
-    <br><br>
+    
     <h1 class="text-center mb-4 fw-bold text-light ">.</h1>
     
     <div class="container py-5">
