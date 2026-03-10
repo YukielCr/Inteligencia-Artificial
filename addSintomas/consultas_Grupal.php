@@ -26,7 +26,7 @@
 
     <?php
     require "../connection/conexion.php";
-    require "crud/re.php";
+    require "crud/registrar.php";
     require "crud/editar.php";
     require "crud/eliminar.php";
     ?>

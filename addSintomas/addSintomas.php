@@ -51,12 +51,12 @@
                             </div>
                             
                             <div class="d-flex flex-wrap gap-2 mt-4">
-                                <button type="submit" class="btn btn-success fw-bold px-4">ALTAS</button>
-                                <button type="button" class="btn btn-danger fw-bold px-4" onclick="ejecutarBaja()">BAJAS</button>
-                                <button type="button" class="btn btn-primary fw-bold px-4" onclick="ejecutarConsulta()">CONSULTAR</button>
-                                <button type="button" class="btn btn-warning fw-bold text-dark px-4" onclick="ejecutarModificacion()">MODIFICACIONES</button>
-                                <a href="consultas_Grupal.php" class="btn btn-info fw-bold text-white px-4">CONSULTAS MÚLTIPLES</a>
-                                <button type="button" class="btn btn-secondary fw-bold px-4" onclick="window.location.href='../interfasExpretoInicio.html'">REGRESAR</button>
+                                <button type="submit" class="btn btn-success fw-bold px-4">ALTAS 🗃️</button>
+                                <button type="button" class="btn btn-danger fw-bold px-4" onclick="ejecutarBaja()">BAJAS 🗑️</button>
+                                <button type="button" class="btn btn-primary fw-bold px-4" onclick="ejecutarConsulta()">CONSULTAR 🔍</button>
+                                <button type="button" class="btn btn-warning fw-bold text-dark px-4" onclick="ejecutarModificacion()">MODIFICACIONES ✏️</button>
+                                <a href="consultas_Grupal.php" class="btn btn-info fw-bold text-white px-4">CONSULTAS MÚLTIPLES 📊</a>
+                                <button type="button" class="btn btn-secondary fw-bold px-4" onclick="window.location.href='../interfasExpretoInicio.html'">REGRESAR 🔄</button>
                             </div>
                             
                         </div>

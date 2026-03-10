@@ -5,42 +5,49 @@ if (!empty($_POST["btnregistrar"])) {
     $nombre = $_POST['nombre'];
     $descripcion = $_POST['descripcion'];
 
-    // 2. Recibir los datos de la imagen
-    $imagen = $_FILES["imagen"]["tmp_name"];
-    $nombreimagen = $_FILES["imagen"]["name"];
-    $tipoimagen = strtolower(pathinfo($nombreimagen, PATHINFO_EXTENSION));
-    
-    // 3. Definir la carpeta donde se guardará (un nivel arriba, en images)
-    $directorio = "../images/";
+    // 2. Definir una variable para la ruta (por defecto vacía)
+    $ruta_destino = ""; 
+    $procesar_registro = true; // Usamos esta bandera para saber si hubo un error con la imagen
 
-    // 4. Validar el formato de la imagen
-    if ($tipoimagen == "jpg" or $tipoimagen == "jpeg" or $tipoimagen == "png") {
+    // 3. Verificar SI el usuario seleccionó una imagen
+    if (!empty($_FILES["imagen"]["name"])) {
         
-        // Generar una ruta única para que las imágenes no se sobreescriban
-        $ruta_destino = $directorio . time() . "_" . basename($nombreimagen);
+        $imagen = $_FILES["imagen"]["tmp_name"];
+        $nombreimagen = $_FILES["imagen"]["name"];
+        $tipoimagen = strtolower(pathinfo($nombreimagen, PATHINFO_EXTENSION));
+        $directorio = "../images/";
 
-        // Almacenando la imagen físicamente en la carpeta
-        if (move_uploaded_file($imagen, $ruta_destino)) {
-            
-            // 5. Guardar todo en la base de datos (Usamos sentencias preparadas por seguridad)
-            $sql = "INSERT INTO registro_Sintomas (nombre, descripcion, ruta_imagen) VALUES (?, ?, ?)";
-            
-            if ($stmt = mysqli_prepare($conexion, $sql)) {
-                mysqli_stmt_bind_param($stmt, "sss", $nombre, $descripcion, $ruta_destino);
-                
-                if (mysqli_stmt_execute($stmt)) {
-                    // Mensaje de éxito real (corregido de <dib> a <div>)
-                    echo "<div class='alert alert-success mt-2 text-center'>Imagen y datos guardados exitosamente.</div>";
-                } else {
-                    echo "<div class='alert alert-danger mt-2 text-center'>Error al guardar en la base de datos.</div>";
-                }
-                mysqli_stmt_close($stmt);
+        // Validar el formato
+        if ($tipoimagen == "jpg" || $tipoimagen == "jpeg" || $tipoimagen == "png") {
+            $ruta_temporal = $directorio . time() . "_" . basename($nombreimagen);
+
+            // Intentar mover la imagen
+            if (move_uploaded_file($imagen, $ruta_temporal)) {
+                $ruta_destino = $ruta_temporal; // Si se movió bien, actualizamos la ruta
+            } else {
+                echo "<div class='alert alert-danger mt-2 text-center'>Error al guardar la imagen en el servidor.</div>";
+                $procesar_registro = false; // Detenemos el registro porque falló la imagen
             }
         } else {
-            echo "<div class='alert alert-danger mt-2 text-center'>Error al mover la imagen a la carpeta destino.</div>";
+            echo "<div class='alert alert-warning mt-2 text-center'>No se acepta ese formato. Solo JPG, JPEG o PNG.</div>";
+            $procesar_registro = false; // Detenemos el registro por formato inválido
         }
-    } else {
-        echo "<div class='alert alert-warning mt-2 text-center'>No se acepta ese formato. Solo JPG, JPEG o PNG.</div>";
+    }
+
+    // 4. Guardar en la base de datos (Solo si no hubo errores previos)
+    if ($procesar_registro) {
+        $sql = "INSERT INTO registro_Sintomas (nombre, descripcion, ruta_imagen) VALUES (?, ?, ?)";
+        
+        if ($stmt = mysqli_prepare($conexion, $sql)) {
+            mysqli_stmt_bind_param($stmt, "sss", $nombre, $descripcion, $ruta_destino);
+            
+            if (mysqli_stmt_execute($stmt)) {
+                echo "<div class='alert alert-success mt-2 text-center'>Registro guardado exitosamente.</div>";
+            } else {
+                echo "<div class='alert alert-danger mt-2 text-center'>Error al guardar en la base de datos.</div>";
+            }
+            mysqli_stmt_close($stmt);
+        }
     }
     ?>
     
