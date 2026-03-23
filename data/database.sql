@@ -1,9 +1,9 @@
--- Base de datos para el registro de enfermedades
+drop database enfermedades;
 
 create database enfermedades;
 
 use enfermedades;
-
+-- 
 CREATE TABLE registro_enfermedades (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -11,8 +11,9 @@ CREATE TABLE registro_enfermedades (
     ruta_imagen VARCHAR(255)
 );
 
-
+SHOW TABLES;
 select *from registro_enfermedades;
+
 
 create table registro_Sintomas(
 	id int auto_increment primary key,
@@ -22,6 +23,19 @@ create table registro_Sintomas(
 );
 
 select *from registro_Sintomas;
+
+CREATE TABLE cuadro_Patologico (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_enfermedad INT NOT NULL,
+    id_sintoma INT NOT NULL,
+    peso DECIMAL(5,2) NOT NULL,
+    -- Las llaves foráneas aseguran que no se guarden IDs que no existen
+    FOREIGN KEY (id_enfermedad) REFERENCES registro_enfermedades(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_sintoma) REFERENCES registro_Sintomas(id) ON DELETE CASCADE
+);
+
+
+select *from cuadro_Patologico;
 
 
 INSERT INTO registro_Sintomas (nombre, descripcion, ruta_imagen) VALUES
@@ -75,5 +89,3 @@ INSERT INTO registro_Sintomas (nombre, descripcion, ruta_imagen) VALUES
 ('Adenopatía', 'Inflamación o aumento de tamaño de los ganglios.', NULL),
 ('Equimosis', 'Aparición de moretones sin causa aparente.', NULL),
 ('Desorientación', 'Confusión sobre el tiempo, lugar o identidad.', NULL);
-
-
