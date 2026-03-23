@@ -10,11 +10,9 @@ CREATE TABLE registro_enfermedades (
     descripcion TEXT NOT NULL,
     ruta_imagen VARCHAR(255)
 );
+ALTER TABLE registro_enfermedades ADD COLUMN suma_total DECIMAL(6,2) DEFAULT 0;
 
-SHOW TABLES;
-select *from registro_enfermedades;
-
-
+-- Creacion de la primera tabla
 create table registro_Sintomas(
 	id int auto_increment primary key,
     nombre varchar(100) not null,
@@ -22,8 +20,7 @@ create table registro_Sintomas(
     ruta_imagen varchar(255)
 );
 
-select *from registro_Sintomas;
-
+-- Registro de enfermedades
 CREATE TABLE cuadro_Patologico (
     id INT AUTO_INCREMENT PRIMARY KEY,
     id_enfermedad INT NOT NULL,
@@ -34,58 +31,80 @@ CREATE TABLE cuadro_Patologico (
     FOREIGN KEY (id_sintoma) REFERENCES registro_Sintomas(id) ON DELETE CASCADE
 );
 
-
+select *from registro_enfermedades;
+select *from registro_Sintomas;
 select *from cuadro_Patologico;
 
 
-INSERT INTO registro_Sintomas (nombre, descripcion, ruta_imagen) VALUES
-('Fiebre', 'Elevación de la temperatura corporal por encima de los 38°C.', NULL),
-('Tos seca', 'Tos persistente sin expectoración de mucosidad.', NULL),
-('Cefalea', 'Dolor de cabeza intenso o punzante.', NULL),
-('Fatiga', 'Sensación de cansancio extremo o falta de energía.', NULL),
-('Náuseas', 'Sensación de malestar en el estómago con ganas de vomitar.', NULL),
-('Mareos', 'Sensación de inestabilidad o pérdida del equilibrio.', NULL),
-('Congestión nasal', 'Obstrucción de las fosas nasales por inflamación o moco.', NULL),
-('Dolor de garganta', 'Irritación, carraspeo o dolor al tragar.', NULL),
-('Mialgia', 'Dolor muscular generalizado.', NULL),
-('Artralgia', 'Dolor o rigidez en las articulaciones.', NULL),
-('Disnea', 'Dificultad para respirar o sensación de falta de aire.', NULL),
-('Diarrea', 'Evacuaciones líquidas o blandas frecuentes.', NULL),
-('Vómito', 'Expulsión violenta del contenido estomacal.', NULL),
-('Escalofríos', 'Contracciones musculares involuntarias por frío o fiebre.', NULL),
-('Ageusia', 'Pérdida total o parcial del sentido del gusto.', NULL),
-('Anosmia', 'Pérdida total o parcial del sentido del olfato.', NULL),
-('Dolor abdominal', 'Malestar o cólicos en la zona del vientre.', NULL),
-('Erupción cutánea', 'Aparición de manchas, granos o enrojecimiento en la piel.', NULL),
-('Insomnio', 'Dificultad persistente para conciliar el sueño.', NULL),
-('Sudoración nocturna', 'Exceso de sudor durante las horas de sueño.', NULL),
-('Taquicardia', 'Latidos del corazón más rápidos de lo normal en reposo.', NULL),
-('Estornudos', 'Expulsión brusca y ruidosa de aire por la nariz.', NULL),
-('Prurito', 'Picazón o irritación que induce a rascarse.', NULL),
-('Edema', 'Hinchazón causada por la acumulación de líquidos.', NULL),
-('Ojos rojos', 'Inflamación de los vasos sanguíneos en la esclerótica.', NULL),
-('Tinnitus', 'Zumbido o silbido persistente en los oídos.', NULL),
-('Anorexia', 'Pérdida notable del apetito.', NULL),
-('Estreñimiento', 'Dificultad o baja frecuencia para evacuar heces.', NULL),
-('Dolor lumbar', 'Dolor localizado en la parte baja de la espalda.', NULL),
-('Palidez', 'Pérdida del color natural de la piel o mucosas.', NULL),
-('Confusión', 'Desorientación o incapacidad para pensar con claridad.', NULL),
-('Hipotensión', 'Presión arterial inusualmente baja.', NULL),
-('Hipertensión', 'Presión arterial elevada por encima de los niveles normales.', NULL),
-('Visión borrosa', 'Falta de agudeza visual o claridad en la vista.', NULL),
-('Epistaxis', 'Sangrado proveniente de las fosas nasales.', NULL),
-('Acidez', 'Ardor en el esófago causado por reflujo gástrico.', NULL),
-('Rigidez de nuca', 'Dificultad dolorosa para mover o doblar el cuello.', NULL),
-('Debilidad', 'Pérdida de fuerza física en las extremidades.', NULL),
-('Taquipnea', 'Respiración excesivamente rápida y superficial.', NULL),
-('Tos productiva', 'Tos acompañada de expectoración o flemas.', NULL),
-('Opresión torácica', 'Sensación de peso o presión en el pecho.', NULL),
-('Somnolencia', 'Ganas intensas de dormir durante el día.', NULL),
-('Xerostomía', 'Sensación de sequedad en la boca por falta de saliva.', NULL),
-('Escotomas', 'Presencia de puntos ciegos o luces en el campo visual.', NULL),
-('Temblor', 'Movimientos involuntarios y rítmicos de una parte del cuerpo.', NULL),
-('Irritabilidad', 'Estado emocional de agitación o enojo fácil.', NULL),
-('Sibilancias', 'Sonido silbante al pasar el aire por los pulmones.', NULL),
-('Adenopatía', 'Inflamación o aumento de tamaño de los ganglios.', NULL),
-('Equimosis', 'Aparición de moretones sin causa aparente.', NULL),
-('Desorientación', 'Confusión sobre el tiempo, lugar o identidad.', NULL);
+
+
+
+INSERT INTO registro_enfermedades (nombre, descripcion, ruta_imagen) VALUES 
+('Dengue', 'Enfermedad viral transmitida por mosquitos.', ''),
+('Chikungunya', 'Fiebre viral transmitida por mosquitos que causa dolor articular.', ''),
+('Zika', 'Infección viral transmitida por el mosquito Aedes.', ''),
+('COVID-19', 'Enfermedad respiratoria aguda causada por el coronavirus SARS-CoV-2.', ''),
+('Influenza (Gripe)', 'Infección viral respiratoria contagiosa.', ''),
+('Resfriado común', 'Infección viral leve del tracto respiratorio superior.', ''),
+('Asma', 'Enfermedad crónica que inflama y estrecha las vías respiratorias.', ''),
+('Bronquitis', 'Inflamación del revestimiento de los conductos bronquiales.', ''),
+('Gastritis', 'Inflamación del revestimiento del estómago.', ''),
+('Migraña', 'Dolor de cabeza intenso y pulsátil, a menudo en un lado de la cabeza.', ''),
+('Diabetes Tipo 2', 'Trastorno crónico que afecta la forma en que el cuerpo metaboliza el azúcar.', ''),
+('Hipertensión', 'Presión arterial alta de forma crónica.', ''),
+('Anemia', 'Afección en la que la sangre no cuenta con suficientes glóbulos rojos sanos.', ''),
+('Tuberculosis', 'Infección bacteriana contagiosa que afecta principalmente a los pulmones.', ''),
+('Cólera', 'Enfermedad bacteriana que provoca diarrea severa y deshidratación.', '');
+
+
+INSERT INTO registro_Sintomas (nombre, descripcion, ruta_imagen) VALUES 
+('Fiebre', 'Aumento temporal de la temperatura corporal promedio.', ''),
+('Dolor de cabeza', 'Dolor o molestia en la cabeza, el cuero cabelludo o el cuello.', ''),
+('Escalofríos', 'Sensación de frío acompañada de temblores musculares.', ''),
+('Debilidad', 'Falta de fuerza física o energía muscular.', ''),
+('Ronchas', 'Erupción cutánea con bultos rojizos que causan picazón.', ''),
+('Dolor muscular', 'Molestia o dolor en los músculos (mialgia).', ''),
+('Dolor articular', 'Molestia, dolor o inflamación en cualquier parte de una articulación.', ''),
+('Náuseas', 'Sensación de malestar en el estómago con ganas de vomitar.', ''),
+('Vómitos', 'Expulsión forzada del contenido del estómago por la boca.', ''),
+('Diarrea', 'Heces blandas, acuosas y frecuentes.', ''),
+('Cansancio extremo', 'Fatiga persistente que no se alivia con el descanso.', ''),
+('Tos seca', 'Tos que no produce flema ni moco.', ''),
+('Tos con flema', 'Tos que expulsa mucosidad de los pulmones.', ''),
+('Dificultad para respirar', 'Sensación de falta de aire o asfixia.', ''),
+('Congestión nasal', 'Acumulación de moco que bloquea los conductos nasales.', ''),
+('Estornudos', 'Expulsión repentina y forzada de aire por la nariz y la boca.', ''),
+('Dolor de garganta', 'Dolor, irritación o picazón en la garganta.', ''),
+('Pérdida de olfato', 'Incapacidad total o parcial para percibir olores.', ''),
+('Pérdida de gusto', 'Incapacidad para detectar sabores (dulce, salado, amargo, etc.).', ''),
+('Sudoración nocturna', 'Episodios repetidos de sudoración extrema al dormir.', ''),
+('Mareos', 'Sensación de inestabilidad o de que todo da vueltas.', ''),
+('Visión borrosa', 'Falta de agudeza visual, incapacidad para ver detalles finos.', ''),
+('Zumbido de oídos', 'Percepción de ruidos o pitidos en los oídos (tinnitus).', ''),
+('Palidez', 'Pérdida inusual del color de la piel.', ''),
+('Opresión en el pecho', 'Sensación de peso o aplastamiento en el área del tórax.', ''),
+('Taquicardia', 'Ritmo cardíaco más rápido de lo normal en reposo.', ''),
+('Sensibilidad a la luz', 'Molestia o dolor en los ojos por exposición a la luz (fotofobia).', ''),
+('Sensibilidad al ruido', 'Intolerancia a niveles de sonido normales (hiperacusia).', ''),
+('Acidez estomacal', 'Sensación de ardor en el pecho o la garganta.', ''),
+('Gases', 'Acumulación de aire en el tracto digestivo.', ''),
+('Estreñimiento', 'Dificultad para evacuar las heces.', ''),
+('Sed excesiva', 'Necesidad anormal e incontrolable de beber líquidos (polidipsia).', ''),
+('Orina frecuente', 'Necesidad de orinar más a menudo de lo habitual (poliuria).', ''),
+('Hambre extrema', 'Apetito anormalmente grande (polifagia).', ''),
+('Pérdida de peso', 'Disminución del peso corporal sin intentarlo.', ''),
+('Aumento de peso', 'Acumulación inusual de masa corporal.', ''),
+('Dificultad para dormir', 'Problemas para conciliar o mantener el sueño (insomnio).', ''),
+('Calambres', 'Contracciones musculares involuntarias y dolorosas.', ''),
+('Manos y pies fríos', 'Sensación de baja temperatura en las extremidades.', ''),
+('Piel seca', 'Piel áspera, escamosa o que pica.', ''),
+('Picazón', 'Sensación irritante que provoca el deseo de rascarse.', ''),
+('Enrojecimiento ocular', 'Vasos sanguíneos dilatados en la parte blanca del ojo.', ''),
+('Sangrado de encías', 'Hemorragia en los tejidos que rodean los dientes.', ''),
+('Hemorragia nasal', 'Pérdida de sangre del tejido que recubre la nariz (epistaxis).', ''),
+('Inflamación de ganglios', 'Aumento de tamaño de los ganglios linfáticos.', ''),
+('Confusión mental', 'Incapacidad para pensar con la claridad o rapidez habitual.', ''),
+('Alteración del equilibrio', 'Dificultad para mantenerse firme o caminar derecho.', ''),
+('Desmayos', 'Pérdida temporal del conocimiento.', ''),
+('Sibilancias', 'Sonido silbante durante la respiración.', ''),
+('Irritabilidad', 'Tendencia a enojarse o frustrarse con facilidad.', '');

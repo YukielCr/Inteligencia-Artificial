@@ -1,34 +1,50 @@
 <?php
-// Incluye tu conexión
+// 1. Incluye tu conexión
 include("../connection/conexion.php");
 
-// Recibimos los datos en formato JSON desde JavaScript
+// 2. Recibimos los datos en formato JSON desde JavaScript
 $datosJSON = file_get_contents('php://input');
 $datos = json_decode($datosJSON, true);
 
-// Verificamos que sí hayan llegado datos
 if (!empty($datos)) {
     $errores = 0;
+    // Creamos un arreglo para recordar a qué enfermedades les movimos datos
+    $enfermedades_afectadas = [];
 
-    // Recorremos cada fila que nos mandó el JavaScript
+    // 3. Insertamos cada característica en el Cuadro Patológico
     foreach ($datos as $fila) {
-        // Limpiamos los datos por seguridad
         $id_enf = mysqli_real_escape_string($conexion, $fila['id_enfermedad']);
         $id_sin = mysqli_real_escape_string($conexion, $fila['id_sintoma']);
         $peso = mysqli_real_escape_string($conexion, $fila['peso']);
 
-        // Preparamos la inserción
-        $query = "INSERT INTO cuadro_Patologico (id_enfermedad, id_sintoma, peso) 
-                  VALUES ('$id_enf', '$id_sin', '$peso')";
+        $queryInsertar = "INSERT INTO cuadro_Patologico (id_enfermedad, id_sintoma, peso) 
+                          VALUES ('$id_enf', '$id_sin', '$peso')";
         
-        // Si una consulta falla, sumamos un error
-        if (!mysqli_query($conexion, $query)) {
+        if (!mysqli_query($conexion, $queryInsertar)) {
             $errores++;
+        } else {
+            // Guardamos el ID de la enfermedad para actualizar su total después
+            $enfermedades_afectadas[$id_enf] = true;
         }
     }
 
-    // Devolvemos una respuesta al JavaScript
+    // 4. Si todo se insertó bien, recalculamos la suma total
     if ($errores == 0) {
+        // Recorremos solo las enfermedades que acabamos de modificar
+        foreach (array_keys($enfermedades_afectadas) as $id_enf) {
+            
+            // Esta consulta suma todos los pesos de esa enfermedad y la actualiza
+            $querySuma = "UPDATE registro_enfermedades 
+                          SET suma_total = (
+                              SELECT COALESCE(SUM(peso), 0) 
+                              FROM cuadro_Patologico 
+                              WHERE id_enfermedad = '$id_enf'
+                          ) 
+                          WHERE id = '$id_enf'";
+                          
+            mysqli_query($conexion, $querySuma);
+        }
+
         echo json_encode(["success" => true]);
     } else {
         echo json_encode(["success" => false, "error" => "No se pudieron guardar algunos registros."]);
