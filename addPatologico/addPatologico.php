@@ -170,7 +170,7 @@ $resultadoSintomas = mysqli_query($conexion, $querySintomas);
            <button id="btnGuardar" class="btn btn-retro px-4 d-flex flex-column align-items-center gap-1">
                 <i class="bi bi-floppy-fill text-secondary fs-5"></i> <span>GUARDAR</span>
             </button>
-            <button class="btn btn-retro px-4 d-flex flex-column align-items-center gap-1">
+            <button id="btnEliminacionCompleta" class="btn btn-retro px-4 d-flex flex-column align-items-center gap-1">
                 <i class="bi bi-x-circle-fill text-danger fs-5"></i> <span>CANCELAR</span>
             </button>
             <a href="../interfasExpretoInicio.html"
@@ -335,6 +335,22 @@ $resultadoSintomas = mysqli_query($conexion, $querySintomas);
             });
         });
     </script>
+
+    <!--Boton para eliminar Todos los elemntos de la Tabla de seleccion-->
+    <script>
+        document.getElementById('btnEliminacionCompleta').addEventListener('click', function() {
+            const tabla=document.getElementById('tabla-caracteristicas');
+
+            //Eliminacion de todos los documetos .innerHTML=""
+            if(tabla.lastElementChild){
+                alert("Se an eliminado todos los datos de manera correcta"); 
+                document.getElementById('tabla-caracteristicas').innerHTML = '';
+            }else{
+                alert("La lista ya esta vacia")
+            }
+        });
+    </script>
+
 </body>
 
 </html>
