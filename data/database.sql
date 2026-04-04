@@ -108,3 +108,50 @@ INSERT INTO registro_Sintomas (nombre, descripcion, ruta_imagen) VALUES
 ('Desmayos', 'Pérdida temporal del conocimiento.', ''),
 ('Sibilancias', 'Sonido silbante durante la respiración.', ''),
 ('Irritabilidad', 'Tendencia a enojarse o frustrarse con facilidad.', '');
+
+
+INSERT INTO cuadro_Patologico (id_enfermedad, id_sintoma, peso) VALUES
+-- 1. Dengue (Fiebre, Dolor de cabeza, Dolor muscular, Dolor articular, Ronchas)
+(1, 1, 30.00), (1, 2, 20.00), (1, 6, 20.00), (1, 7, 20.00), (1, 5, 10.00),
+
+-- 2. Chikungunya (Fiebre, Dolor articular, Dolor muscular, Náuseas, Ronchas)
+(2, 1, 25.00), (2, 7, 40.00), (2, 6, 15.00), (2, 8, 10.00), (2, 5, 10.00),
+
+-- 3. Zika (Fiebre, Ronchas, Dolor articular, Enrojecimiento ocular, Dolor de cabeza)
+(3, 1, 15.00), (3, 5, 35.00), (3, 7, 20.00), (3, 42, 20.00), (3, 2, 10.00),
+
+-- 4. COVID-19 (Fiebre, Tos seca, Cansancio extremo, Pérdida de olfato, Dificultad para respirar)
+(4, 1, 20.00), (4, 12, 20.00), (4, 11, 15.00), (4, 18, 25.00), (4, 14, 20.00),
+
+-- 5. Influenza (Fiebre, Dolor muscular, Escalofríos, Tos seca, Dolor de garganta)
+(5, 1, 30.00), (5, 6, 20.00), (5, 3, 20.00), (5, 12, 15.00), (5, 17, 15.00),
+
+-- 6. Resfriado común (Congestión nasal, Estornudos, Dolor de garganta, Tos con flema, Lagrimeo/Picazón)
+(6, 15, 30.00), (6, 16, 25.00), (6, 17, 20.00), (6, 13, 15.00), (6, 41, 10.00),
+
+-- 7. Asma (Dificultad para respirar, Sibilancias, Opresión en el pecho, Tos seca, Cansancio extremo)
+(7, 14, 30.00), (7, 49, 30.00), (7, 25, 20.00), (7, 12, 10.00), (7, 11, 10.00),
+
+-- 8. Bronquitis (Tos con flema, Dificultad para respirar, Opresión en el pecho, Cansancio extremo, Fiebre)
+(8, 13, 35.00), (8, 14, 20.00), (8, 25, 20.00), (8, 11, 15.00), (8, 1, 10.00),
+
+-- 9. Gastritis (Náuseas, Acidez estomacal, Gases, Vómitos, Debilidad)
+(9, 8, 25.00), (9, 29, 35.00), (9, 30, 15.00), (9, 9, 15.00), (9, 4, 10.00),
+
+-- 10. Migraña (Dolor de cabeza, Náuseas, Sensibilidad a la luz, Sensibilidad al ruido, Visión borrosa)
+(10, 2, 40.00), (10, 8, 15.00), (10, 27, 20.00), (10, 28, 15.00), (10, 22, 10.00),
+
+-- 11. Diabetes Tipo 2 (Sed excesiva, Orina frecuente, Hambre extrema, Visión borrosa, Pérdida de peso)
+(11, 32, 25.00), (11, 33, 25.00), (11, 34, 20.00), (11, 22, 15.00), (11, 35, 15.00),
+
+-- 12. Hipertensión (Dolor de cabeza, Mareos, Visión borrosa, Zumbido de oídos, Palpitaciones/Taquicardia)
+(12, 2, 25.00), (12, 21, 25.00), (12, 22, 20.00), (12, 23, 15.00), (12, 26, 15.00),
+
+-- 13. Anemia (Cansancio extremo, Palidez, Mareos, Debilidad, Manos y pies fríos)
+(13, 11, 30.00), (13, 24, 25.00), (13, 21, 15.00), (13, 4, 20.00), (13, 39, 10.00),
+
+-- 14. Tuberculosis (Tos con flema, Sudoración nocturna, Pérdida de peso, Fiebre, Cansancio extremo)
+(14, 13, 35.00), (14, 20, 20.00), (14, 35, 20.00), (14, 1, 15.00), (14, 11, 10.00),
+
+-- 15. Cólera (Diarrea, Vómitos, Náuseas, Sed excesiva, Calambres)
+(15, 10, 40.00), (15, 9, 20.00), (15, 8, 10.00), (15, 32, 20.00), (15, 38, 10.00);
