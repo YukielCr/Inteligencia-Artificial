@@ -1,5 +1,5 @@
 <?php
-include("../connection/conexion.php"); 
+include("../connection/conexion.php");
 
 // Obtener todos los síntomas para llenar el primer ComboBox (select)
 //$querySintomas = "SELECT id, nombre, descripcion FROM registro_Sintomas";
@@ -9,6 +9,7 @@ $resultadoSintomas = mysqli_query($conexion, $querySintomas);
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +18,7 @@ $resultadoSintomas = mysqli_query($conexion, $querySintomas);
     <link rel="stylesheet" href="../css/style.css">
     <link rel="icon" type="image/jpeg" href="img/iconnnn.jpg" />
 </head>
+
 <body class="bg-light">
 
     <div class="container mt-5">
@@ -24,15 +26,16 @@ $resultadoSintomas = mysqli_query($conexion, $querySintomas);
             <div class="col-lg-10">
                 <div class="card shadow-lg border-0 rounded-3">
                     <div class="card-header bg-danger text-white text-center py-3">
-                        <h2 class="mb-0 text-uppercase fs-4 fw-bold">Búsqueda Hacia Adelante    </h2>
+                        <h2 class="mb-0 text-uppercase fs-4 fw-bold">Búsqueda Hacia Adelante </h2>
                     </div>
-                    
+
                     <div class="card-body p-4 p-md-5">
                         <div class="row mb-4">
                             <div class="col-md-9">
-                                <label for="cbx_sintomas" class="form-label fw-bold text-secondary">Características a evaluar:</label>
+                                <label for="cbx_sintomas" class="form-label fw-bold text-secondary">Características a
+                                    evaluar:</label>
                                 <select id="cbx_sintomas" class="form-select form-select-lg mb-3 shadow-sm">
-                                    <?php while($row = mysqli_fetch_assoc($resultadoSintomas)) { ?>
+                                    <?php while ($row = mysqli_fetch_assoc($resultadoSintomas)) { ?>
                                         <option value="<?php echo $row['id']; ?>">
                                             <?php echo $row['nombre']; ?>
                                             <!-- <?php echo $row['nombre'] . " - " . $row['descripcion']; ?> -->
@@ -40,7 +43,8 @@ $resultadoSintomas = mysqli_query($conexion, $querySintomas);
                                     <?php } ?>
                                 </select>
 
-                                <select id="lista_seleccionados" class="form-select shadow-sm" multiple style="height: 250px;"></select>
+                                <select id="lista_seleccionados" class="form-select shadow-sm" multiple
+                                    style="height: 250px;"></select>
                             </div>
 
                             <div class="col-md-3 d-flex flex-column justify-content-center gap-3 mt-4 mt-md-0 pt-md-4">
@@ -62,13 +66,9 @@ $resultadoSintomas = mysqli_query($conexion, $querySintomas);
 
                             <form id="formInferencia" action="inferir.php" method="POST" class="m-0">
                                 <input type="hidden" name="sintomas_ids" id="sintomas_ids" value="">
-<!--
-                                <button type="button" class="btn btn-success btn-lg px-5 fw-bold shadow" onclick="inferir()">
-                                    INFIERE
-                                </button>
-                                -->
 
-                                <button type="button" class="btn btn btn-success">Inferir</button>
+                                <button type="button" class="btn btn-success"
+                                    onclick="prepararInferencia()">Inferir</button>
                             </form>
                         </div>
 
@@ -84,9 +84,9 @@ $resultadoSintomas = mysqli_query($conexion, $querySintomas);
         function añadirSintoma() {
             var cbx = document.getElementById("cbx_sintomas");
             var lista = document.getElementById("lista_seleccionados");
-            
+
             var opcionSeleccionada = cbx.options[cbx.selectedIndex];
-            
+
             // Verificar que no se haya agregado ya para evitar duplicados
             var yaExiste = false;
             for (var i = 0; i < lista.options.length; i++) {
@@ -114,23 +114,33 @@ $resultadoSintomas = mysqli_query($conexion, $querySintomas);
             }
         }
 
-        function inferir() {
+
+        function prepararInferencia() {
             var lista = document.getElementById("lista_seleccionados");
+            var form = document.getElementById("formInferencia");
+            var inputIds = document.getElementById("sintomas_ids");
+
+            // Validar que haya al menos un síntoma seleccionado
             if (lista.options.length === 0) {
-                alert("Por favor, añade al menos un síntoma antes de inferir.");
+                alert("Por favor, añada al menos un síntoma a la lista antes de inferir.");
                 return;
             }
 
-            // Recolectar todos los IDs de la lista y separarlos por comas
+            // Recorrer la lista y guardar los IDs en un arreglo
             var ids = [];
             for (var i = 0; i < lista.options.length; i++) {
                 ids.push(lista.options[i].value);
             }
 
-            // Poner los IDs en el input oculto y enviar el formulario
-            document.getElementById("sintomas_ids").value = ids.join(",");
-            document.getElementById("formInferencia").submit();
+            // Convertir el arreglo en una cadena separada por comas (ej. "1,4,15")
+            inputIds.value = ids.join(",");
+
+            // Enviar el formulario
+            form.submit();
         }
+
+
     </script>
 </body>
+
 </html>

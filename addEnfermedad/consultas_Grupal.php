@@ -49,8 +49,15 @@
                     <a href="addEnfermedad.php" class="btn btn-outline-secondary fw-bold px-4">Regresar al Panel</a>
                 </div>
 
+
+
+
+
+
+
                 <div class="table-responsive">
                     <table class="table table-hover table-striped align-middle">
+
                         <thead class="table-dark">
                             <tr>
                                 <th scope="col" class="text-center">ID</th>
@@ -61,6 +68,8 @@
                                 <th scope="col" class="text-center">Acciones</th>
                             </tr>
                         </thead>
+
+
                         <tbody>
 
                             <?php
@@ -126,6 +135,11 @@
                     </table>
                 </div>
 
+
+
+
+
+
             </div>
         </div>
     </div>
@@ -163,7 +177,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
